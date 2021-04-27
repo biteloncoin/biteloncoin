@@ -1,6 +1,6 @@
 # BitEloncoin Core [BitElon, ฿]
 
-![Biteloncoin](https://https://github.com/BitEloncoin/BitEloncoin/tree/master/png/300coin.png)
+![Biteloncoin](https://https://github.com/BitEloncoin/BitEloncoin/300coin.png)
 
 [![Build Status](https:/github.com/BitEloncoin/BitEloncoin)](https://github.com/BitEloncoin/BitEloncoin)
 
@@ -51,7 +51,7 @@ not straightforward.
 
 ## Very Much Frequently Asked Questions ❓
 
-### How much Biteloncoin can exist? – So many puppies! 🐕
+### How much Biteloncoin can exist? – So many puppies! ฿
 there will be approximately 42,000,000 coins.
 Half of the total goes to mining awards,at first four years Each subsequent block 
 will grant 50 coins to encourage miners to continue tosecure the network and make
