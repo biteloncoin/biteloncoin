@@ -9,9 +9,9 @@ its proof of work (POW).
 - **Website:** [BitEloncoin.com.](https://BitEloncoin.com)
 
 ## License – Much license ⚖️
-BitEloncoin Core is released under the terms of the MIT license. See
+BitEloncoin Core is released under the terms of the GNU license. See
 [COPYING](COPYING) for more information or see
-[opensource.org](https://opensource.org/licenses/MIT)
+[opensource.org](https://opensource.org/licenses/gpl-license)
 
 ## Development and contributions – omg developers
 Development is ongoing, and the development team, as well as other volunteers,
