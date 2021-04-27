@@ -2,7 +2,7 @@
 
 ![Biteloncoin](https://github.com/biteloncoin/biteloncoin/blob/main/300.png)
 
-[![Build Status](https:/github.com/BitEloncoin/BitEloncoin)](https://github.com/BitEloncoin/BitEloncoin)
+[![Build Status](https://github.com/biteloncoin/biteloncoin/blob/main/passing.svg)]
 
 BitEloncoin is a cryptocurrency like Bitcoin, although it uses SHA256 as
 its proof of work (POW). 
