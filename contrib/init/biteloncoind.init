@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+#  biteloncoind The biteloncoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: biteloncoind
+# processname: biteloncoind
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/biteloncoind, see below
+if [ -f /etc/sysconfig/biteloncoind ]; then
+        . /etc/sysconfig/biteloncoind
+fi
+
+RETVAL=0
+
+prog=biteloncoind
+# you can override the lockfile via BITELONCOIND_LOCKFILE in /etc/sysconfig/biteloncoind
+lockfile=${BITELONCOIND_LOCKFILE-/var/lock/subsys/biteloncoind}
+
+# biteloncoind defaults to /usr/bin/biteloncoind, override with BITELONCOIND_BIN
+biteloncoind=${BITELONCOIND_BIN-/usr/bin/biteloncoind}
+
+# biteloncoind opts default to -disablewallet, override with BITELONCOIND_OPTS
+biteloncoind_opts=${BITELONCOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $biteloncoind $biteloncoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -t600
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

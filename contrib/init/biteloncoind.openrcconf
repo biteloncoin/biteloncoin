@@ -1,0 +1,33 @@
+# /etc/conf.d/biteloncoind: config file for /etc/init.d/biteloncoind
+
+# Config file location
+#BITELONCOIND_CONFIGFILE="/etc/biteloncoin/biteloncoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITELONCOIND_USER)
+#BITELONCOIND_PIDDIR="/var/run/biteloncoind"
+
+# What filename to give the pidfile
+#BITELONCOIND_PIDFILE="${BITELONCOIND_PIDDIR}/biteloncoind.pid"
+
+# Where to write biteloncoind data (be mindful that the blockchain is large)
+#BITELONCOIND_DATADIR="/var/lib/biteloncoind"
+
+# User and group to own biteloncoind process
+#BITELONCOIND_USER="biteloncoin"
+#BITELONCOIND_GROUP="biteloncoin"
+
+# Path to biteloncoind executable
+#BITELONCOIND_BIN="/usr/bin/biteloncoind"
+
+# Nice value to run biteloncoind under
+#BITELONCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#BITELONCOIND_OPTS=""
+
+# The timeout in seconds OpenRC will wait for biteloncoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+BITELONCOIND_SIGTERM_TIMEOUT=600
