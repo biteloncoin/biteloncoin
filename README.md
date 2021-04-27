@@ -1,6 +1,6 @@
 # BitEloncoin Core [BitElon, ฿]
 
-![Biteloncoin](https://github.com/BitEloncoin/BitEloncoin/300.png)
+![Biteloncoin](https://github.com/biteloncoin/biteloncoin/blob/main/300.png)
 
 [![Build Status](https:/github.com/BitEloncoin/BitEloncoin)](https://github.com/BitEloncoin/BitEloncoin)
 
