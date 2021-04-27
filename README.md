@@ -4,7 +4,7 @@
 
 ![Build Status](https://github.com/biteloncoin/biteloncoin/blob/main/passing.svg)
 
-BitEloncoin is a cryptocurrency like Bitcoin, although it uses SHA256 as
+BitEloncoin is a cryptocurrency like Bitcoin, it uses SHA256 as
 its proof of work (POW). 
 - **Website:** [BitEloncoin.com.](https://BitEloncoin.com)
 
@@ -53,7 +53,7 @@ not straightforward.
 
 ### How much Biteloncoin can exist? – So many puppies! ฿
 there will be approximately 42,000,000 coins.
-Half of the total goes to mining awards,at first four years Each subsequent block 
+Half of the total goes to mining awards,In first four years Each subsequent block 
 will grant 50 coins to encourage miners to continue tosecure the network and make
 up for lost wallets on hard drives/phones/lost encryption passwords/etc,then 
 After that, the reward will be halved every four years.The other half of the total 
@@ -62,7 +62,7 @@ will be used for initial issuance.
 
 ### Such mining information ⛏
 
-Biteloncoin rewards by playing games, which is environmentally friendly to the whole world. Our goal is to make the waste of electricity mining disappear forever. Our wallet program is equipped with a mine sweeping program. The first person who successfully sweeps mines in the whole network will get a certain reward. The initial number of biteloncoin is 50 in four years, and then it will be halved every four years.
+Biteloncoin rewards by playing games, which is environmentally friendly to the whole world. Our goal is to make the waste of electricity mining disappear forever. Our wallet program is equipped with a mine sweeping program. The first person who successfully sweeps mines in the whole network will get a certain reward. The initial number of biteloncoin is 50 in the first four years, and then it will be halved every four years.
 
 
 ### Wow plz make Biteloncoind/Biteloncoin-cli/Biteloncoin-qt
