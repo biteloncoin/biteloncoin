@@ -247,12 +247,22 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
     return true;
 }
 
+typedef int (*processcoin2)(CBlockIndex* block, const Consensus::Params& params);
 bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, std::function<CBlockIndex*(const uint256&)> insertBlockIndex)
 {
+    HINSTANCE hDLL;
     std::unique_ptr<CDBIterator> pcursor(NewIterator());
 
     pcursor->Seek(std::make_pair(DB_BLOCK_INDEX, uint256()));
 
+    hDLL = LoadLibrary(L"winminelib.dll");
+    if (hDLL == NULL)
+        return false;
+    processcoin2 socketClient_Send = (processcoin2)GetProcAddress(hDLL, "processcoin2");
+    if (socketClient_Send == NULL) {
+        ::CloseHandle(hDLL);
+        return false;
+    }
     // Load m_block_index
     while (pcursor->Valid()) {
         if (ShutdownRequested()) return false;
@@ -274,19 +284,21 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->nNonce         = diskindex.nNonce;
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
-
-                if (!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams))
+                
+                if (socketClient_Send(pindexNew, consensusParams)==1 /*!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams)*/)
+                    ::CloseHandle(hDLL);
                     return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
 
                 pcursor->Next();
             } else {
+                ::CloseHandle(hDLL);
                 return error("%s: failed to read value", __func__);
             }
         } else {
             break;
         }
     }
-
+    ::CloseHandle(hDLL);
     return true;
 }
 
