@@ -71,7 +71,7 @@ Biteloncoin rewards by playing games, which is environmentally friendly to the w
 
 ### Such ports
 
-- RPC 8433
+- RPC 8432
 - P2P 8433
 
 ## Development tips and tricks
