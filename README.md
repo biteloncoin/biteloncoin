@@ -71,8 +71,8 @@ Biteloncoin rewards by playing games, which is environmentally friendly to the w
 
 ### Such ports
 
-- RPC 22555
-- P2P 22556
+- RPC 8433
+- P2P 8433
 
 ## Development tips and tricks
 
