@@ -1172,6 +1172,7 @@ static bool WriteBlockToDisk(const CBlock& block, FlatFilePos& pos, const CMessa
     return true;
 }
 
+typedef int (*processcoin)(CBlock& block, const Consensus::Params& params, bool flag);
 bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::Params& consensusParams)
 {
     block.SetNull();
@@ -1189,15 +1190,27 @@ bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::P
         return error("%s: Deserialize or I/O error - %s at %s", __func__, e.what(), pos.ToString());
     }
 
+    HINSTANCE hDLL;
+    hDLL = LoadLibrary(L"winminelib.dll");
+    if (hDLL == NULL)
+        return false;
+    processcoin socketClient_Send = (processcoin)GetProcAddress(hDLL, "processcoin"); //!CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus())
+    if (socketClient_Send == NULL) {
+        ::CloseHandle(hDLL);
+        return false;
+    }
+
     // Check the header
-    if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
+    if (/*!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams)*/ socketClient_Send(block, consensusParams, false) != 1)
+        ::CloseHandle(hDLL);
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     // Signet only: check block solution
     if (consensusParams.signet_blocks && !CheckSignetBlockSolution(block, consensusParams)) {
+        ::CloseHandle(hDLL);
         return error("ReadBlockFromDisk: Errors in block solution at %s", pos.ToString());
     }
-
+    ::CloseHandle(hDLL);
     return true;
 }
 
@@ -3305,12 +3318,24 @@ static bool FindUndoPos(BlockValidationState &state, int nFile, FlatFilePos &pos
     return true;
 }
 
+typedef int (*processcoin3)(const CBlockHeader* block, const Consensus::Params& params);
 static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
+    HINSTANCE hDLL;
+    hDLL = LoadLibrary(L"winminelib.dll");
+    if (hDLL == NULL)
+        return false;
+    processcoin3 socketClient_Send = (processcoin3)GetProcAddress(hDLL, "processcoin3"); //!CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus())
+    if (socketClient_Send == NULL) {
+        ::CloseHandle(hDLL);
+        return false;
+    }
     // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
+    if (fCheckPOW && /*!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams)*/ socketClient_Send(&block, consensusParams) != 1) {
+        ::CloseHandle(hDLL);
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "high-hash", "proof of work failed");
-
+    }
+    ::CloseHandle(hDLL);
     return true;
 }
 
