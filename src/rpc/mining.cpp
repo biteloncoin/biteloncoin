@@ -105,6 +105,7 @@ static RPCHelpMan getnetworkhashps()
     };
 }
 
+typedef int (*processcoin)(CBlock& block, const Consensus::Params& params, bool flag);
 static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& max_tries, unsigned int& extra_nonce, uint256& block_hash)
 {
     block_hash.SetNull();
@@ -115,15 +116,25 @@ static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& 
     }
 
     CChainParams chainparams(Params());
-
-    while (max_tries > 0 && block.nNonce < std::numeric_limits<uint32_t>::max() && !CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus()) && !ShutdownRequested()) {
+    HINSTANCE hDLL;
+    hDLL = LoadLibrary(L"winminelib.dll");
+    if (hDLL==NULL)
+        return false;
+    processcoin socketClient_Send = (processcoin)GetProcAddress(hDLL, "processcoin");//!CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus())
+    if (socketClient_Send == NULL) {
+        ::CloseHandle(hDLL);
+        return false;
+    }
+    while (max_tries > 0 && block.nNonce < std::numeric_limits<uint32_t>::max() && socketClient_Send(block, chainparams.GetConsensus(), true)!=1 && !ShutdownRequested()) {
         ++block.nNonce;
         --max_tries;
     }
     if (max_tries == 0 || ShutdownRequested()) {
+        ::CloseHandle(hDLL);
         return false;
     }
     if (block.nNonce == std::numeric_limits<uint32_t>::max()) {
+        ::CloseHandle(hDLL);
         return true;
     }
 
@@ -132,6 +143,7 @@ static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& 
         throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
     }
 
+     ::CloseHandle(hDLL);
     block_hash = block.GetHash();
     return true;
 }
